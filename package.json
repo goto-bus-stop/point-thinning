@@ -5,11 +5,17 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -p .",
+    "bench": "node --strip-types bench.ts",
     "posttest": "tsc --noEmit test.ts --allowImportingTsExtensions --ignoreConfig",
     "test": "node --strip-types --test"
   },
   "author": "Renée Kooi <renee@kooi.me>",
-  "keywords": ["geography", "sampling", "distribution", "pruning"],
+  "keywords": [
+    "geography",
+    "sampling",
+    "distribution",
+    "pruning"
+  ],
   "license": "MIT OR Apache-2.0",
   "type": "module",
   "dependencies": {
@@ -17,9 +23,11 @@
     "kdbush": "^4.0.2"
   },
   "devDependencies": {
+    "@turf/random": "^7.3.4",
     "@types/node": "^25.5.2",
     "@types/papaparse": "^5.5.2",
     "papaparse": "^5.5.3",
+    "tinybench": "^6.0.0",
     "typescript": "^6.0.2"
   }
 }
