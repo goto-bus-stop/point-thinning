@@ -1,0 +1,25 @@
+{
+  "name": "point-thinning",
+  "version": "0.0.0",
+  "description": "A distance-based geographical 2D point thinning algorithm",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "posttest": "tsc --noEmit test.ts --allowImportingTsExtensions --ignoreConfig",
+    "test": "node --strip-types --test"
+  },
+  "author": "Renée Kooi <renee@kooi.me>",
+  "keywords": ["geography", "sampling", "distribution", "pruning"],
+  "license": "MIT OR Apache-2.0",
+  "type": "module",
+  "dependencies": {
+    "geokdbush": "^2.1.0",
+    "kdbush": "^4.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.2",
+    "@types/papaparse": "^5.5.2",
+    "papaparse": "^5.5.3",
+    "typescript": "^6.0.2"
+  }
+}

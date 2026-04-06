@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "declaration": true,
+    "types": ["node"]
+  },
+  "files": [
+    "index.ts"
+  ]
+}
