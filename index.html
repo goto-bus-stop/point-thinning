@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="./node_modules/leaflet/dist/leaflet.css">
+<style>
+#map {
+  aspect-ratio: 16 / 9;
+  height: 80vh;
+  max-height: 80vh;
+  max-width: 80vw;
+}
+</style>
+</head>
+<body>
+  <div id="map"></div>
+  <button onclick="thin(2.5)">2.5km</button>
+  <button onclick="thin(1)">1km</button>
+  <button onclick="thin(.5)">500m</button>
+  <button onclick="thin(.1)">100m</button>
+  <button onclick="thin(.05)">50m</button>
+  <span id="count">showing 15,000 points</span>
+  <script type="module">
+import { thinPoints } from './index.ts'
+import { randomPoint } from '@turf/random'
+import * as L from 'leaflet'
+
+const message = document.querySelector('#count')
+const format = new Intl.NumberFormat()
+
+const LONDON = [-0.4358098963408841, 51.28448578847132, 0.2810480138153659, 51.6906674692608]
+
+const map = new L.Map('map', {
+  renderer: new L.Canvas(),
+})
+map.fitBounds([
+  [LONDON[1], LONDON[0]],
+  [LONDON[3], LONDON[2]],
+])
+
+const osm = new L.TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+})
+osm.addTo(map)
+
+const points = randomPoint(15_000, { bbox: LONDON })
+
+const circles = []
+for (const point of points.features) {
+  const [lng, lat] = point.geometry.coordinates
+  circles.push(new L.Circle({ lng, lat }, { color: 'red' }).addTo(map))
+}
+
+globalThis.thin = (distance) => {
+  const thinned = thinPoints(points.features, distance, (point, position) => {
+    const [lng, lat] = point.geometry.coordinates
+    position[0] = lng
+    position[1] = lat
+  })
+
+  circles.forEach((circle) => circle.remove())
+  circles.length = 0
+
+  for (const point of thinned) {
+    const [lng, lat] = point.geometry.coordinates
+    circles.push(new L.Circle({ lng, lat }, { color: 'red' }).addTo(map))
+  }
+
+  message.textContent = `showing ${format.format(thinned.length)} points`
+}
+  </script>
+  </body>
+</html>
