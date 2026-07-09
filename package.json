@@ -28,6 +28,6 @@
     "@types/papaparse": "^5.5.2",
     "papaparse": "^5.5.3",
     "tinybench": "^6.0.0",
-    "typescript": "^6.0.2"
+    "typescript": "^7.0.0"
   }
 }
