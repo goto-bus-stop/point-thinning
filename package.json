@@ -3,6 +3,13 @@
   "version": "0.1.0",
   "description": "A distance-based geographical 2D point thinning algorithm",
   "main": "index.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
+  },
   "scripts": {
     "build": "tsc -p .",
     "bench": "node --strip-types bench.ts",
