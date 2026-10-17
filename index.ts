@@ -6,11 +6,34 @@ import KDBush from 'kdbush'
  * or 1 if the coordinate at that index should be kept.
  */
 export type ThinnedMask = Uint8Array
+
+/**
+ * Filter a list of coordinates by a minimum distance between them, returning a mask indicating which
+ * coordinates should be removed to produce a set of coordinates that are all spaced the required
+ * distance apart.
+ * 
+ * @param coordinates A flat array of pairs of coordinates, first longitude/x, then latitude/y.
+ *   If you have objects or a nested array, use {@link flattenCoordinates} to produce a flat array.
+ * @param distance Minimum distance between coordinates in kilometres.
+ * @returns A "mask" array where each element is 0 if the coordinate at that index should be removed,
+ * or 1 if the coordinate at that index should be kept.
+ */
 export function thinPointsMask (coordinates: Float64Array, distance: number): ThinnedMask {
   const neighborIndices = allNearestNeighbors(coordinates, distance)
   return thinPointsByMaxNeighbors(neighborIndices)
 }
 
+/**
+ * Filter a list of coordinates by a minimum distance between them, returning a narrowed set of
+ * coordinates that are all spaced the required distance apart.
+ * 
+ * @param data Arbitrary objects with coordinate data. Specify how to interpret the objects with
+ *   {@link getPosition}.
+ * @param distance Minimum distance between coordinates in kilometres.
+ * @param getPosition Read the position from an input object. You must assign the x/y position
+ *   to `array[0]`, `array[1]` respectively.
+ * @returns A list of objects that are all spaced at least the required distance apart.
+ */
 export function thinPoints<T> (
   data: ArrayLike<T>,
   distance: number,
@@ -30,6 +53,11 @@ export function thinPoints<T> (
 
 /**
  * Build a coordinates array from an input array.
+ *
+ * @param data Arbitrary objects with coordinate data. Specify how to interpret the objects with
+ *   {@link getPosition}.
+ * @param getPosition Read the position from an input object. You must assign the x/y position
+ *   to `array[0]`, `array[1]` respectively.
  */
 export function flattenCoordinates<T> (
   data: ArrayLike<T>,
