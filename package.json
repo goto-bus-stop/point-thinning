@@ -1,6 +1,6 @@
 {
   "name": "point-thinning",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A distance-based geographical 2D point thinning algorithm",
   "main": "index.js",
   "scripts": {
